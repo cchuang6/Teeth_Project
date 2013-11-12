@@ -1,0 +1,13 @@
+db
+/media
+/bin
+/include
+/lib
+/local
+/share
+/env
+/venv
+*.log
+*.pot
+*.pyc
+local_settings.py

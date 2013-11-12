@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<!-- Force latest IE rendering engine or ChromeFrame if installed -->
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+<meta charset="utf-8">
+<title>Django jQuery File Upload Demo - Basic version</title>
+<meta name="description" content="File Upload widget with multiple file selection, drag&amp;drop support and progress bar for jQuery. Supports cross-domain, chunked and resumable file uploads. Works with any server-side platform (PHP, Python, Ruby on Rails, Java, Node.js, Go etc.) that supports standard HTML form file uploads.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap styles -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<!-- Generic page styles -->
+<link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.fileupload-ui.css">
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-fixed-top .navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://github.com/sigurdga/django-jquery-file-upload">Django jQuery File Upload</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Demo</a></li>
+                <li><a href="https://github.com/sigurdga/django-jquery-file-upload">Source Code</a></li>
+                <li><a href="https://github.com/blueimp/jQuery-File-Upload/wiki">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h1>Django jQuery File Upload Demo</h1>
+    <h2 class="lead">Basic version</h2>
+    <ul class="nav nav-tabs">
+        <li><a href="/upload/basic">Basic</a></li>
+        <li><a href="/upload/basic/plus">Basic Plus</a></li>
+        <li><a href="/upload/new">Basic Plus UI</a></li>
+        <li><a href="/upload/angular">AngularJS</a></li>
+        <li><a href="/upload/jquery-ui">jQuery UI</a></li>
+        <li class="active"><a href="/upload/teeth-ui">3D Teeth UI</a></li>
+    </ul>
+    <br>
+    <blockquote>
+        <p>File Upload widget with multiple file selection, drag&amp;drop support and progress bar for jQuery.<br>
+        Supports cross-domain, chunked and resumable file uploads.</p>
+    </blockquote>
+    <br>
+    <!-- The fileinput-button span is used to style the file input field as button -->
+    <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>Select files...</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload" type="file" name="file" multiple>
+    </span>
+	    <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>Select files test...</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload2" type="file" name="file" multiple>
+    </span>
+    <br>
+    <br>
+    <!-- The global progress bar -->
+    <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files"></div>
+    <br>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Demo Notes</h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage (see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Browser-support">Browser support</a>).</li>
+                <li>Please refer to the <a href="https://github.com/blueimp/jQuery-File-Upload">project website</a> and <a href="https://github.com/blueimp/jQuery-File-Upload/wiki">documentation</a> for more information.</li>
+                <li>Built with Twitter's <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> CSS framework and Icons from <a href="http://glyphicons.com/">Glyphicons</a>.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="{{ STATIC_URL }}js_3D/build/three.min.js"></script>
+<script src="{{ STATIC_URL }}js_3D/loaders/OBJLoader.js"></script>
+<script src="{{ STATIC_URL }}js_3D/loaders/MTLLoader.js"></script>
+<script src="{{ STATIC_URL }}js_3D/loaders/OBJMTLLoader.js"></script>
+<script src="{{ STATIC_URL }}js_3D/loaders/STLLoader.js"></script>
+<script src="{{ STATIC_URL }}js_3D/controls/TrackballControls.js"></script>
+<script src="{{ STATIC_URL }}js_3D/Detector.js"></script>
+<script src="{{ STATIC_URL }}js_3D/libs/stats.min.js"></script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="{{ STATIC_URL }}js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="{{ STATIC_URL }}js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="{{ STATIC_URL }}js/jquery.fileupload.js"></script>
+<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+<script>
+/*jslint unparam: true */
+/*global window, $ */
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$(function () {
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    var url = '/upload/teeth-ui/';
+    var csrftoken = $.cookie('csrftoken');
+    $('#fileupload').fileupload({
+        url: url,
+        crossDomain: false,
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        },
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo('#files');
+            });
+        },
+		acceptFileTypes: /(\.|\/)(gif|jpe?g|png|csv)$/i,
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
+<script>
+		var container, stats;
+        var camera, controls, scene, projector, renderer, model;       
+        var form1, form2;
+        var text, parent;
+        var geometry, material, mesh;
+        var mouseX, mouseY;
+        var vector, raycaster, intersects;
+        var x, y, z, vec;
+        var objects = [];
+		console.log($('#fileupload2'));
+		//log('Test Message');
+		//init();
+        //animate();
+		
+		
+		function init() {
+            container = document.createElement('div');
+            document.body.appendChild( container );
+            
+            
+            //camera
+            camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 20;
+            
+            //renderer
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);          
+            container.appendChild(renderer.domElement);
+            
+            //trackball control
+            controls = new THREE.TrackballControls( camera, container);
+            controls.rotateSpeed = 1.0;
+            controls.zoomSpeed = 1.2;
+            controls.panSpeed = 0.8;
+            controls.noZoom = false;
+            controls.noPan = false;
+            controls.staticMoving = true;
+            controls.dynamicDampingFactor = 0.3;
+            controls.keys = [ 65, 83, 68 ];
+            //controls.addEventListener( 'change', render ); 
+            
+
+            // scene
+            scene = new THREE.Scene();
+            addStuff();
+            
+            projector = new THREE.Projector();
+            
+            //light
+            var ambient = new THREE.AmbientLight(0x101030);
+            scene.add(ambient);
+            
+//            var light = new THREE.DirectionalLight( 0xebf3ff, 1.6 );
+//            light.position.set( 0, 140, 500 ).multiplyScalar( 1.1 );
+//            scene.add( light );
+//            
+//            var light = new THREE.DirectionalLight( 0x497f13, 1 );
+//            light.position.set( 0, -1, 0 );
+//            scene.add( light ); 
+
+            var pointLight = new THREE.PointLight(0x777777);
+            pointLight.position.set(100, 100, 100);
+            scene.add(pointLight);
+            
+            var pointLight2 = new THREE.PointLight(0x777777);
+            pointLight2.position.set(100, -100, 100);
+            scene.add(pointLight2);
+            
+            //billboard
+
+            
+            //status
+            stats = new Stats();
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.top = '850px';
+            stats.domElement.style.zIndex = 100;
+            container.appendChild( stats.domElement ); 
+            
+            //handle mouse action
+            //document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+            document.addEventListener("keydown", onDocumentKeyDown, false);
+            document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+            //
+            window.addEventListener('resize', onWindowResize, false);
+        }
+		
+		function addStuff() {
+//            var loader = new THREE.OBJLoader();
+//            var filepath = form1[6].value;
+//            //form1[6].value = filepath;
+//            loader.load(filepath, function(object) {
+//                model = object;
+//                scene.add( model );
+//                objects.push( model );
+//            });
+
+            var filepath = form1[6].value;
+            var m = new THREE.MeshBasicMaterial({color: 0x000000});
+            var loader = new THREE.OBJMTLLoader();
+            loader.addEventListener( 'load', function ( event ) {
+                var object = event.content;
+                scene.add( object );
+                objects.push( object );
+            });
+            loader.load( filepath, m); 
+            
+            //x,y,z coordinates
+//            var g1 = new THREE.Geometry();
+//            g1.vertices = [
+//                new THREE.Vector3(0,0,0),
+//                new THREE.Vector3(10,0,0)
+//            ];
+//            var line1 = new THREE.Line(g1, new THREE.LineBasicMaterial({ color : 0xdddddd }));
+//            scene.add(line1);
+//            
+//            var g2 = new THREE.Geometry();
+//            g2.vertices = [
+//                new THREE.Vector3(0,0,0),
+//                new THREE.Vector3(0,10,0)
+//            ];
+//            var line2 = new THREE.Line(g2, new THREE.LineBasicMaterial({ color : 0xdddddd }));
+//            scene.add(line2);
+//            
+//            var g3 = new THREE.Geometry();
+//            g3.vertices = [
+//                new THREE.Vector3(0,0,0),
+//                new THREE.Vector3(0,0,10)
+//            ];
+//            var line3 = new THREE.Line(g3, new THREE.LineBasicMaterial({ color : 0xdddddd }));
+//            scene.add(line3);
+        }
+		
+		function animate() {
+            requestAnimationFrame(animate);
+            render();
+            controls.update();
+            stats.update();
+        }
+
+        function render() {
+            renderer.render( scene, camera );
+        }
+		
+
+</script>
+
+</body> 
+</html>
