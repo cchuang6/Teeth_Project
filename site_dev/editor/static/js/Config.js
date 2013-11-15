@@ -3,7 +3,7 @@ var Config = function () {
 	var name = 'threejs-editor';
 
 	var storage = {
-		theme: 'css/light.css',
+		theme: '/static/css/light.css',
 		camera: {
 			position: [ 500, 250, 500 ],
 			target: [ 0, 0, 0 ] 

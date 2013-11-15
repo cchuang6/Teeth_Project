@@ -53,7 +53,7 @@
 		<script src="{{ STATIC_URL }}js/Menubar.File.js"></script>
 		<script src="{{ STATIC_URL }}js/Menubar.Edit.js"></script>
 		<script src="{{ STATIC_URL }}js/Menubar.Add.js"></script>
-		<script src="{{ STATIC_URL }}js/Menubar.View.js"></script>
+		<!--<script src="{{ STATIC_URL }}js/Menubar.View.js"></script>-->
 		<script src="{{ STATIC_URL }}js/Menubar.Help.js"></script>
 		<script src="{{ STATIC_URL }}js/Sidebar.js"></script>
 		<script src="{{ STATIC_URL }}js/Sidebar.Renderer.js"></script>
@@ -93,7 +93,8 @@
 			document.body.appendChild( sidebar.dom );
 
 			//
-
+			//console.log(editor.config.getKey( 'theme3' ));
+			//console.log('Theme1 value is ' + editor.config.getKey( 'theme1' ));
 			//editor.setTheme( editor.config.getKey( 'theme' ) );
 			//editor.setTheme( editor.config.getKey( 'theme' ));
 
