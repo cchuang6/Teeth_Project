@@ -1,2 +1,12 @@
+<<<<<<< HEAD
 # Compiled source #
 *.pyc
+=======
+*.pyc
+docs/_build/
+dist
+*.egg-info
+*.pot
+.DS_store
+fabfile.py
+>>>>>>> fileBrowser-master
