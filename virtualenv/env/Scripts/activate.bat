@@ -1,5 +1,5 @@
 @echo off
-set "VIRTUAL_ENV=c:\Users\cchuang6.ASURITE\Documents\NSF_Teeth\virtualenv\env"
+set "VIRTUAL_ENV=c:\xampp\htdocs\Teeth_Project\virtualenv\env"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
