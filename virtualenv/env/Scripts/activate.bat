@@ -14,7 +14,9 @@ set "PROMPT=(env) %PROMPT%"
 if not defined _OLD_VIRTUAL_PYTHONHOME (
     set "_OLD_VIRTUAL_PYTHONHOME=%PYTHONHOME%"
 )
-set PYTHONHOME=
+
+::set "PYTHONHOME=%VIRTUAL_ENV%\Scripts"
+::set "PYTHONPATH=%VIRTUAL_ENV%\Lib"
 
 if defined _OLD_VIRTUAL_PATH (
     set "PATH=%_OLD_VIRTUAL_PATH%"

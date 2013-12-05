@@ -1,4 +1,4 @@
-#!c:\Users\cchuang6.ASURITE\Documents\NSF_Teeth\virtualenv\env\Scripts\python.exe
+#!c:\xampp\htdocs\Teeth_Project\virtualenv\env\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'pip==1.3.1','console_scripts','pip'
 __requires__ = 'pip==1.3.1'
 import sys
