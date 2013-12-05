@@ -1,5 +1,6 @@
 # Django settings for site_dev project.
 import os
+from django.conf import settings
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -12,7 +13,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'NSF_uploader_test',                      # Or path to database file if using sqlite3.
+        'NAME': 'nsf_uploader_test',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'cchuang6',
         'PASSWORD': 'asu1234',
@@ -61,7 +62,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '.\\static\\'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -124,7 +125,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'editor',
     # Uncomment the next line to enable the admin:
+	'grappelli',
+	'filebrowser',
     'django.contrib.admin',
+	#'south',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -159,3 +163,17 @@ LOGGING = {
         },
     }
 }
+
+#from filebrowser.sites import site
+#from django.core.files.storage import FileSystemStorage
+#site.storage = FileSystemStorage(location='C:\\xampp\\htdocs\\Teeth_Project\\site_dev', base_url='/uploads/')
+#MEDIA_ROOT = getattr(settings, "FILEBROWSER_MEDIA_ROOT", settings.MEDIA_ROOT)
+#MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
+#FILEBROWSER_DIRECTORY = 'uploads/'
+#EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
+#    'Folder': [''],
+#    'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
+#    'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
+#    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
+#    'Audio': ['.mp3','.mp4','.wav','.aiff','.midi','.m4p']
+#})
