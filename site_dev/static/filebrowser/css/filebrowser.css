@@ -270,6 +270,10 @@ span.qq-upload-file {
     color: transparent !important;
     background: url('../img/cancel_hover.png') top left no-repeat;
 }
+.qq-teeth-icon {
+    color: transparent;
+    background: url('../img/teeth_icon.jpg') top left no-repeat; 
+}
 .qq-upload-size {
     font-size: 11px;
     margin-left: 10px;

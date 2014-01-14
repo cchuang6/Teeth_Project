@@ -1,6 +1,5 @@
 # Django settings for site_dev project.
 import os
-from django.conf import settings
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -49,6 +48,9 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+
+PROJECT_PATH = os.path.realpath(os.path.join(os.path.dirname(__file__), ".."))
+print("PROJECT_PATH: " + PROJECT_PATH)
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = ''
@@ -62,7 +64,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '.\\static\\'
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'static\\')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -108,13 +110,14 @@ ROOT_URLCONF = 'site_dev.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'site_dev.wsgi.application'
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates')
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#print("BASE_DIR: " + BASE_DIR)
+#TEMPLATE_DIRS = (
+#    os.path.join(BASE_DIR, 'templates')
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-)
+#)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -122,13 +125,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'editor',
+    'django.contrib.staticfiles',    
     # Uncomment the next line to enable the admin:
-	'grappelli',
-	'filebrowser',
+    'grappelli',
+    'filebrowser',
+    #'editor',
     'django.contrib.admin',
-	#'south',
+    #'south',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -164,16 +167,42 @@ LOGGING = {
     }
 }
 
+FILEBROWSER_DIRECTORY = 'uploads\\'
+FILEBROWSER_MEDIA_ROOT = os.path.join(PROJECT_PATH, "media\\")
+FILEBROWSER_MEDIA_URL = '/media/'
+FILEBROWSER_VERSIONS_BASEDIR = 'versions\\'
+MEDIA_ROOT = FILEBROWSER_MEDIA_ROOT
+MEDIA_URL = FILEBROWSER_MEDIA_URL
+#FILEBROWSER_PLACEHOLDER = 'place_holder\\'
+
+print("MEDIA_ROOT: " + MEDIA_ROOT)
+print("STATIC_ROOT: " + STATIC_ROOT)
+
+
+FILEBROWSER_EXTENSIONS = {
+    'Folder': [''],
+    'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
+    'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
+    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
+    'Audio': ['.mp3','.mp4','.wav','.aiff','.midi','.m4p'],
+    'Mesh': ['.stl', '.obj'],
+}
+
+FILEBROWSER_SELECT_FORMATS = {
+    'file': ['Folder', 'Image', 'Document', 'Video', 'Audio', 'Mesh'],
+    'image': ['Image'],
+    'document': ['Document'],
+    'media': ['Video', 'Audio'],
+    'mesh' : ['Mesh'],
+}
+
+#FILEBROWSER_SHOW_PLACEHOLDER = True
+#FILEBROWSER_FORCE_PLACEHOLDER = True
+#FILEBROWSER_URL_FILEBROWSER_MEDIA = MEDIA_URL + 'filebrowser/' 
+#FILEBROWSER_PATH_FILEBROWSER_MEDIA = MEDIA_ROOT + 'filebrowser\\' 
 #from filebrowser.sites import site
 #from django.core.files.storage import FileSystemStorage
 #site.storage = FileSystemStorage(location='C:\\xampp\\htdocs\\Teeth_Project\\site_dev', base_url='/uploads/')
 #MEDIA_ROOT = getattr(settings, "FILEBROWSER_MEDIA_ROOT", settings.MEDIA_ROOT)
 #MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
-#FILEBROWSER_DIRECTORY = 'uploads/'
-#EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
-#    'Folder': [''],
-#    'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
-#    'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
-#    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
-#    'Audio': ['.mp3','.mp4','.wav','.aiff','.midi','.m4p']
-#})
+
