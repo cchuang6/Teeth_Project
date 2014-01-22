@@ -357,10 +357,20 @@ var Loader = function ( editor ) {
 	this.loadURLFile = function (fileURL){
 		console.log('load url file');
 		console.log(fileURL);
-		var extension = fileURL.split('.').pop().toLowerCase();
+		var extension_array = fileURL.split('.');
+		
+		if(extension_array.length < 2)
+			return null;
+		else
+			var extension = extension_array.pop().toLowerCase();
+			
+		
 		var fileName = fileURL.split('/').pop();
 		console.log('File extention111: ' + extension);
+		console.log('extension array length: ' + extension_array.length);
 		console.log('start load file');
+		//check if it has extension
+		
 		switch ( extension ) {
 			
 			case 'stl':
