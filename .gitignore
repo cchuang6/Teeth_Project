@@ -1,5 +1,6 @@
 # Compiled source #
 *.pyc
+*.stl
 dist
 *.egg-info
 *.pot

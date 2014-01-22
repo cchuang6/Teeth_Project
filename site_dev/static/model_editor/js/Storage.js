@@ -10,10 +10,10 @@ var Storage = function () {
 	return {
 
 		init: function ( callback ) {
-
+			
 			var request = indexedDB.open( name, version );
 			request.onupgradeneeded = function ( event ) {
-
+				
 				var db = event.target.result;
 
 				if ( db.objectStoreNames.contains( 'states' ) === false ) {
@@ -66,7 +66,7 @@ var Storage = function () {
 		},
 
 		clear: function ( callback ) {
-
+			
 			var transaction = database.transaction( [ 'states' ], 'readwrite' );
 			var objectStore = transaction.objectStore( 'states' );
 			var request = objectStore.clear();

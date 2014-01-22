@@ -30,7 +30,7 @@ Menubar.File = function ( editor ) {
 
 			editor.config.clear();
 			editor.storage.clear( function () {
-
+				
 				location.href = location.pathname;
 
 			} );
@@ -38,6 +38,7 @@ Menubar.File = function ( editor ) {
 		}
 
 	} );
+	console.log('New in option');
 	options.add( option );
 
 	options.add( new UI.HorizontalRule() );

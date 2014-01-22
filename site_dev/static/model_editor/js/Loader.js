@@ -189,7 +189,7 @@ var Loader = function ( editor ) {
 				reader.addEventListener( 'load', function ( event ) {
 
 					var contents = event.target.result;
-
+					
 					var geometry = new THREE.STLLoader().parse( contents );
 					geometry.sourceType = "stl";
 					geometry.sourceFile = file.name;
@@ -283,7 +283,7 @@ var Loader = function ( editor ) {
 
 		}
 
-	}
+	};
 
 	var handleJSON = function ( data, file, filename ) {
 
@@ -353,4 +353,50 @@ var Loader = function ( editor ) {
 
 	};
 
+	
+	this.loadURLFile = function (fileURL){
+		console.log('load url file');
+		console.log(fileURL);
+		var extension = fileURL.split('.').pop().toLowerCase();
+		var fileName = fileURL.split('/').pop();
+		console.log('File extention111: ' + extension);
+		console.log('start load file');
+		switch ( extension ) {
+			
+			case 'stl':
+				var loader = new THREE.STLLoader();
+				loader.addEventListener( 'load', function ( event ) {
+
+					var geometry = event.content;
+					var material = new THREE.MeshPhongMaterial();
+					var mesh = new THREE.Mesh( geometry, material );
+					mesh.name = fileName;
+
+					editor.addObject( mesh );
+					console.log('load file successful');
+
+				}, false );
+				//console.log('start load file');
+				loader.load(fileURL);
+				
+				break;
+				
+			case 'obj':
+				break;
+				
+			case 'vtk':
+				break;
+				
+			case 'wrl':
+				break;
+				
+			default:
+				alert( 'Unsupported file format.' );
+				break;
+		}
+		//parse file exentsion
+		
+		
+		
+	};
 }
