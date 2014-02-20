@@ -917,3 +917,69 @@ UI.Button.prototype.setLabel = function ( value ) {
 	return this;
 
 };
+
+//Progress
+
+UI.ProgressBar = function (value, maxValue, progressBarId){
+	UI.Element.call( this );
+
+	//var dom = document.createElement( 'div' );
+	var dom = document.createElement('progress');
+	
+	
+	dom.className = 'ProgressBar';
+	dom.id = progressBarId;
+	dom.max = maxValue;
+	dom.value = value;
+	
+	this.dom = dom;
+	return this;
+	
+};
+UI.ProgressBar.prototype = Object.create(UI.Element.prototype);
+
+UI.ProgressBar.updateProgress = function(value){
+	this.dom.value = value;	
+	return this;
+}
+
+UI.ProgressBar.setMax = function (max){
+	this.dom.max = max;	
+	return this;
+}
+
+//Progress bar text
+
+UI.ProgressText = function (value, maxValue, progressTextId){
+	UI.Element.call( this );
+
+	//var dom = document.createElement( 'div' );
+	var dom = document.createElement('span');
+	
+	dom.innerHTML = Math.floor((100 / maxValue) * value) + '%';
+	dom.className = 'ProgressText';
+	dom.id = progressTextId;
+	dom.max = maxValue;
+	dom.value = value;
+	
+	
+	this.dom = dom;
+	return this;
+	
+};
+UI.ProgressText.prototype = Object.create(UI.Element.prototype);
+
+UI.ProgressText.updateProgress = function(value){
+		
+	this.dom.innerHTML = Math.floor((100 / this.dom.max) * value) + '%';
+	this.dom.value = value;
+	return this;
+}
+
+UI.ProgressText.setMax = function (max){
+	this.dom.max = max;
+	this.dom.innerHTML = Math.floor((100 / max) * this.dom.value) + '%';
+	
+	return this;
+}
+

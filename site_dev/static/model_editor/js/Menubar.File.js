@@ -38,7 +38,6 @@ Menubar.File = function ( editor ) {
 		}
 
 	} );
-	console.log('New in option');
 	options.add( option );
 
 	options.add( new UI.HorizontalRule() );

@@ -48,3 +48,16 @@
 .MeshPhongMaterial {
 	color: #ffaa88;
 }
+
+.ProgressBar {
+  color: #0053a6;
+  font-size: .6em;
+  line-height: 1.5em;
+  text-indent: .5em;
+  width: 15em;
+  height: 1.8em;
+  border: 1px solid #0063a6;
+  background: #0063a6;
+    
+}
+progress::-webkit-progress-bar { background: #fff; }

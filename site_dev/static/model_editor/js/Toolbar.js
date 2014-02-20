@@ -32,27 +32,35 @@ var Toolbar = function ( editor ) {
 
 	// grid
 
-	var grid = new UI.Number( 25 ).onChange( update );
-	grid.dom.style.width = '42px';
-	buttons.add( new UI.Text( 'Grid: ' ) );
-	buttons.add( grid );
+	// var grid = new UI.Number( 25 ).onChange( update );
+	// grid.dom.style.width = '42px';
+	// buttons.add( new UI.Text( 'Grid: ' ) );
+	// buttons.add( grid );
 
-	var snap = new UI.Checkbox( false ).onChange( update );
-	buttons.add( snap );
-	buttons.add( new UI.Text( 'snap' ) );
+	// var snap = new UI.Checkbox( false ).onChange( update );
+	// buttons.add( snap );
+	// buttons.add( new UI.Text( 'snap' ) );
 
-	var local = new UI.Checkbox( false ).onChange( update );
-	buttons.add( local );
-	buttons.add( new UI.Text( 'local' ) );
+	// var local = new UI.Checkbox( false ).onChange( update );
+	// buttons.add( local );
+	// buttons.add( new UI.Text( 'local' ) );
 
-	function update() {
+	// function update() {
 
-		signals.snapChanged.dispatch( snap.getValue() === true ? grid.getValue() : null );
-		signals.spaceChanged.dispatch( local.getValue() === true ? "local" : "world" );
+		// signals.snapChanged.dispatch( snap.getValue() === true ? grid.getValue() : null );
+		// signals.spaceChanged.dispatch( local.getValue() === true ? "local" : "world" );
 
-	}
+	// }
 
-	update();
+	// update();
+	
+	//progress bar
+	
+	//var progressBar = new UI.ProgressBar(10, 100);
+	//buttons.add(progressBar);
+
+	//var progressText = new UI.ProgressText(10, 100);
+	//buttons.add(progressText);
 
 	return container;
 

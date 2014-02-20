@@ -376,7 +376,7 @@ var Loader = function ( editor ) {
 			case 'stl':
 				var loader = new THREE.STLLoader();
 				loader.addEventListener( 'load', function ( event ) {
-
+					
 					var geometry = event.content;
 					var material = new THREE.MeshPhongMaterial();
 					var mesh = new THREE.Mesh( geometry, material );
@@ -386,7 +386,19 @@ var Loader = function ( editor ) {
 					console.log('load file successful');
 
 				}, false );
+				
+				loader.addEventListener('progress', function(event){
+					var pBarId = fileName.split('.')[0] + 'BarId';
+					var pTextId = fileName.split('.')[0] + 'TextId';
+					updateBar(event.loaded, event.total, pBarId);
+					updateText(event.loaded, event.total, pTextId);
+					//console.log('loaded: ' + event.loaded);
+					//console.log('totoal: ' + event.total);
+				}, false);
+				
+				
 				//console.log('start load file');
+				addProgress(fileName);
 				loader.load(fileURL);
 				
 				break;
@@ -409,4 +421,60 @@ var Loader = function ( editor ) {
 		
 		
 	};
+	
+	var addProgress = function(fileName){
+	
+		//add progress bar
+		var buttons = document.getElementsByClassName('Button');
+		for(var i = 0; i < buttons.length; i++){
+			if(buttons[i].innerHTML === 'translate' || buttons[i].innerHTML === 'rotate' || buttons[i].innerHTML === 'scale'){
+				var pBarId = fileName.split('.')[0] + 'BarId';
+				var pTextId = fileName.split('.')[0] + 'TextId';
+				var pbar = createProgressBar(0, 100, pBarId);
+				buttons[i].parentNode.appendChild(pbar);
+				
+				var pText = createProgressText(0, pTextId, pBarId);																		
+				buttons[i].parentNode.appendChild(pText);
+				break;
+			}
+		}
+	
+		
+	};
+	
+	var createProgressBar = function(value, max, id){
+	
+		var progressBar = document.createElement('progress');
+		progressBar.value = value;
+		progressBar.max = max;
+		progressBar.id = id;
+		progressBar.className = 'ProgressBar';
+		return progressBar;
+	};
+	
+	var updateBar = function(value, max, id){
+		var progressBar = document.getElementById(id);
+		if(progressBar.value !== value)
+			progressBar.value = value;
+		if(progressBar.max !== max)
+			progressBar.max = max;
+	}
+	
+	var createProgressText = function(value, pTextId, pBarId){
+		var progressText = document.createElement('span');
+		var progressBar = document.getElementById(pBarId);
+		console.log(progressBar);
+		max = progressBar.max;
+		progressText.innerHTML = Math.floor((100 / max) * value) + '%';
+		progressText.className = 'ProgressText';
+		progressText.id = pTextId;
+		return progressText;
+	};
+	
+	var updateText = function(value, max, id){
+		var progressText = document.getElementById(id);
+		progressText.innerHTML = Math.floor((100 / max) * value) + '%';
+	}
+	
+	
 }

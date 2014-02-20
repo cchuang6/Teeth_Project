@@ -24,7 +24,7 @@ Menubar.Add = function ( editor ) {
 
 	// add plane
 
-	var option = new UI.Panel();
+	/* var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'Plane' );
 	option.onClick( function () {
@@ -46,11 +46,11 @@ Menubar.Add = function ( editor ) {
 		editor.select( mesh );
 
 	} );
-	options.add( option );
+	options.add( option ); */
 
 	// add cube
 
-	var option = new UI.Panel();
+	/* var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'Cube' );
 	option.onClick( function () {
@@ -71,11 +71,11 @@ Menubar.Add = function ( editor ) {
 		editor.select( mesh );
 
 	} );
-	options.add( option );
+	options.add( option ); */
 
 	// add circle
 
-	var option = new UI.Panel();
+	/* var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'Circle' );
 	option.onClick( function () {
@@ -91,11 +91,11 @@ Menubar.Add = function ( editor ) {
 		editor.select( mesh );
 
 	} );
-	options.add( option );
+	options.add( option ); */
 
 	// add cylinder
 
-	var option = new UI.Panel();
+	/* var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'Cylinder' );
 	option.onClick( function () {
@@ -115,11 +115,11 @@ Menubar.Add = function ( editor ) {
 		editor.select( mesh );
 
 	} );
-	options.add( option );
+	options.add( option ); */
 
 	// add sphere
 
-	var option = new UI.Panel();
+	/* var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'Sphere' );
 	option.onClick( function () {
@@ -136,11 +136,11 @@ Menubar.Add = function ( editor ) {
 		editor.select( mesh );
 
 	} );
-	options.add( option );
+	options.add( option ); */
 
 	// add icosahedron
 
-	var option = new UI.Panel();
+/* 	var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'Icosahedron' );
 	option.onClick( function () {
@@ -156,11 +156,11 @@ Menubar.Add = function ( editor ) {
 		editor.select( mesh );
 
 	} );
-	options.add( option );
+	options.add( option ); */
 
 	// add torus
 
-	var option = new UI.Panel();
+	/* var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'Torus' );
 	option.onClick( function () {
@@ -179,11 +179,11 @@ Menubar.Add = function ( editor ) {
 		editor.select( mesh );
 
 	} );
-	options.add( option );
+	options.add( option ); */
 
 	// add torus knot
 
-	var option = new UI.Panel();
+	/* var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'TorusKnot' );
 	option.onClick( function () {
@@ -205,10 +205,10 @@ Menubar.Add = function ( editor ) {
 
 	} );
 	options.add( option );
-
+ */
 	// divider
 
-	options.add( new UI.HorizontalRule() );
+	//options.add( new UI.HorizontalRule() );
 
 	// add point light
 
@@ -260,6 +260,7 @@ Menubar.Add = function ( editor ) {
 	var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'Directional light' );
+	option.setId('DirectionalLight');
 	option.onClick( function () {
 
 		var color = 0xffffff;
