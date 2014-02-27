@@ -1,0 +1,81 @@
+{% load leaflet_tags %}
+{% load geojson_tags %}
+
+<head>
+    {% leaflet_js %}
+    {% leaflet_css %}    
+    <script src="{{ STATIC_URL }}mapApp/jquery-2.1.0.min.js"></script>
+    <style>
+        .leaflet-container { height: 100%; }
+    </style>
+</head>
+
+<body>    
+    {% leaflet_map "main"  callback="main_map_init" %}
+
+    <script type="text/javascript">
+        function main_map_init (map, options) {
+            //map.spin(true); 
+
+           
+            var dataurlPoint = '{% url "dataPoint" %}';            
+            var dataurlPolygon = '{% url "dataPolygon" %}';            
+            // Download GeoJSON via Ajax
+            console.log('start parse!');
+            console.log(dataurlPoint);
+            console.log(dataurlPolygon);
+            $.getJSON(dataurlPoint, function (data) {
+                // Add GeoJSON layer                                        
+                console.log('in parse');
+                L.geoJson(data, { onEachFeature: onEachFeatureFunction}).addTo(map);
+                //pointLayer.addData(data);
+                //map.spin(false);
+            });
+
+            $.getJSON(dataurlPolygon, function (data) {
+                // Add GeoJSON layer                                        
+                var polygonLayer = L.geoJson().addTo(map).bindPopup("<b>Successfully bind Layer!! </b>");
+                polygonLayer.addData(data);                
+            });
+			
+			
+        }
+        
+        function onEachFeatureFunction(feature, layer){  
+                console.log('feature');                
+                console.log(feature);                 
+                if (feature.properties && feature.properties.name) {
+                    //layer.bindPopup(feature.properties.name);
+                    //var name = feature.properties.name;
+                    
+                    var name = $('<span style="font-weight:bold"></span>').text(feature.properties.name);
+                    var genealogies = $('<ol></ol>');
+                    //genealogies.append('<li>' + "test" + '</li>');
+                    //use for loop to append all possible geneologies totoal 66
+                    for(var i = 1; i < 67; i++){
+    
+                        //var geneology = $('<a href='#' class='smallPolygonLink'></a>');
+                        var geneology = $('<a href="#" class="smallPolygonLink"></a>');
+                        geneology.text("geneology " + i);
+                        geneology.on('click', function(event){
+                                    alert("Click: " + event.target.text);
+                                    });
+                        var list = $('<li></li>');
+                        list.append(geneology);
+                        genealogies.append(list);
+                    }
+                    var container = $('<div style = "width:150px; height:150px; overflow:auto"></div>');
+                    container.append(name);                    
+                    container.append(genealogies);
+                    //container.on('click', '.smallPolygonLink', function(){alert("test")});
+                    //container.append("This is a link: <a href='#' class='smallPolygonLink'>Click me</a>.");
+                    //name.append(container)
+
+                    layer.bindPopup(container[0]);
+            }
+        }
+		
+	
+		
+    </script>
+</body>

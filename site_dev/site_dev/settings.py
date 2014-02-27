@@ -9,15 +9,27 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+#MY SQL
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': 'nsf_uploader_test',                      # Or path to database file if using sqlite3.
+#        # The following settings are not used with sqlite3:
+#        'USER': 'cchuang6',
+#        'PASSWORD': 'asu1234',
+#        'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+#        'PORT': '3306',                      # Set to empty string for default.
+#    }
+#}
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'nsf_uploader_test',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': 'cchuang6',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'geodatabase',
+        'USER': 'geouser',
         'PASSWORD': 'asu1234',
-        'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '3306',                      # Set to empty string for default.
+        
     }
 }
 
@@ -101,6 +113,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -129,14 +142,20 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'grappelli',
     'filebrowser',
-    #'editor',
-    'django.contrib.admin',
+    'djgeojson',
+    'leaflet',
+    'mapApp',
+    'django.contrib.admin',    
     #'south',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+SERIALIZATION_MODULES = {
+    'geojson': 'djgeojson.serializers'
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -196,13 +215,10 @@ FILEBROWSER_SELECT_FORMATS = {
     'mesh' : ['Mesh'],
 }
 
-#FILEBROWSER_SHOW_PLACEHOLDER = True
-#FILEBROWSER_FORCE_PLACEHOLDER = True
-#FILEBROWSER_URL_FILEBROWSER_MEDIA = MEDIA_URL + 'filebrowser/' 
-#FILEBROWSER_PATH_FILEBROWSER_MEDIA = MEDIA_ROOT + 'filebrowser\\' 
-#from filebrowser.sites import site
-#from django.core.files.storage import FileSystemStorage
-#site.storage = FileSystemStorage(location='C:\\xampp\\htdocs\\Teeth_Project\\site_dev', base_url='/uploads/')
-#MEDIA_ROOT = getattr(settings, "FILEBROWSER_MEDIA_ROOT", settings.MEDIA_ROOT)
-#MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
 
+LEAFLET_CONFIG = {
+    'MINIMAP': True,
+#    'TILES' : 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+#    'TILES': [('Satellite', 'http://onearth.jpl.nasa.gov/wms.cgi?request=GetMap&layers=global_mosaic&styles=&format=image/jpeg&', 'Big eye'), 
+#              ('Streets', 'http://server/b/...', 'Contributors')]
+}
