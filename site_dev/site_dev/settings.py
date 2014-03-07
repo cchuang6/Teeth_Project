@@ -1,5 +1,6 @@
 # Django settings for site_dev project.
 import os
+gettext = lambda s: s
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -8,6 +9,10 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+
+LANGUAGES = [
+    ('en', 'English'),
+]
 
 #MY SQL
 #DATABASES = {
@@ -21,6 +26,7 @@ MANAGERS = ADMINS
 #        'PORT': '3306',                      # Set to empty string for default.
 #    }
 #}
+
 
 
 DATABASES = {
@@ -82,6 +88,7 @@ STATIC_ROOT = os.path.join(PROJECT_PATH, 'static\\')
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
+ADMIN_MEDIA_PREFIX = "/static/admin/"
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
@@ -107,13 +114,26 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'cms.context_processors.media',
+    'sekizai.context_processors.sekizai',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
+    #'django.middleware.clickja-cking.XFrameOptionsMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -140,13 +160,29 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',    
     # Uncomment the next line to enable the admin:
-    'grappelli',
-    'filebrowser',
+    #'grappelli',
+    #'filebrowser',
     'djgeojson',
     'leaflet',
     'mapApp',
-    'django.contrib.admin',    
-    #'south',
+    'home',
+    'django.contrib.admin',  
+    #'cms',
+    #'mptt',
+    #'menus',
+    'south',
+    #'sekizai',
+    #'cms.plugins.flash',
+    #'cms.plugins.link',    
+    #'cms.plugins.snippet',    
+    #'cms.plugins.text',    
+    #'cms.plugins.twitter',
+    #'filer',
+    #'cmsplugin_filer_file',
+    #'cmsplugin_filer_folder',
+    #'cmsplugin_filer_image',
+    #'cmsplugin_filer_teaser',
+    #'cmsplugin_filer_video',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -186,6 +222,12 @@ LOGGING = {
     }
 }
 
+
+CMS_TEMPLATES = (
+    ('template_1.html', 'Template One'),
+    ('template_2.html', 'Template Two'),
+)
+
 FILEBROWSER_DIRECTORY = 'uploads\\'
 FILEBROWSER_MEDIA_ROOT = os.path.join(PROJECT_PATH, "media\\")
 FILEBROWSER_MEDIA_URL = '/media/'
@@ -198,22 +240,22 @@ print("MEDIA_ROOT: " + MEDIA_ROOT)
 print("STATIC_ROOT: " + STATIC_ROOT)
 
 
-FILEBROWSER_EXTENSIONS = {
-    'Folder': [''],
-    'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
-    'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
-    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
-    'Audio': ['.mp3','.mp4','.wav','.aiff','.midi','.m4p'],
-    'Mesh': ['.stl', '.obj'],
-}
-
-FILEBROWSER_SELECT_FORMATS = {
-    'file': ['Folder', 'Image', 'Document', 'Video', 'Audio', 'Mesh'],
-    'image': ['Image'],
-    'document': ['Document'],
-    'media': ['Video', 'Audio'],
-    'mesh' : ['Mesh'],
-}
+#FILEBROWSER_EXTENSIONS = {
+#    'Folder': [''],
+#    'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
+#    'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
+#    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
+#    'Audio': ['.mp3','.mp4','.wav','.aiff','.midi','.m4p'],
+#    'Mesh': ['.stl', '.obj'],
+#}
+#
+#FILEBROWSER_SELECT_FORMATS = {
+#    'file': ['Folder', 'Image', 'Document', 'Video', 'Audio', 'Mesh'],
+#    'image': ['Image'],
+#    'document': ['Document'],
+#    'media': ['Video', 'Audio'],
+#    'mesh' : ['Mesh'],
+#}
 
 
 LEAFLET_CONFIG = {

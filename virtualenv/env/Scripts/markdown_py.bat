@@ -1,0 +1,1 @@
+@"c:\xampp\htdocs\Teeth_Project\virtualenv\env\Scripts\python.exe" "c:\xampp\htdocs\Teeth_Project\virtualenv\env\Scripts\markdown_py" %*
