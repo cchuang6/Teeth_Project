@@ -6,3 +6,4 @@ dist
 *.pot
 .DS_store
 fabfile.py
+django-cms-demo/
